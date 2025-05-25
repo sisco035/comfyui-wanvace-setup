@@ -63,8 +63,8 @@ echo ""
 # UNET
 if [ ! -f "models/unet/Wan2.1-VACE-14B-Q8_0.gguf" ]; then
     echo "Downloading UNET model (~15GB)..."
-    wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/unet/Wan2.1-VACE-14B-Q8_0.gguf" \
-        "https://huggingface.co/QuantStack/Wan2.1-VACE-14B-GGUF/resolve/main/Wan2.1-VACE-14B-Q8_0.gguf"
+   wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/diffusion_models/Wan2.1-VACE-14B-Q8_0.gguf" \
+    "https://huggingface.co/QuantStack/Wan2.1-VACE-14B-GGUF/resolve/main/Wan2.1-VACE-14B-Q8_0.gguf"
 else
     echo "✓ UNET model already exists"
 fi
@@ -141,7 +141,9 @@ EOF
 echo ""
 echo "📄 Writing workflow to: workflows/WanVace_Q8_Workflow.json..."
 
-cat > "workflows/WanVace_Q8_Workflow.json" << 'EOF'
+mkdir -p "$COMFYUI_DIR/user/default/workflows"
+
+cat > "$COMFYUI_DIR/user/default/workflows/WanVace_Q8_Workflow.json" << 'EOF'
 {
   "3": {
     "inputs": {
