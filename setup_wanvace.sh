@@ -89,7 +89,42 @@ else
     echo "✓ LoRA model already exists"
 fi
 
-# Create input instructions
+# Verify downloads
+echo ""
+echo "Verifying downloaded models..."
+
+missing_files=()
+
+check_file() {
+    if [ ! -f "$1" ]; then
+        echo "❌ Missing: $1"
+        missing_files+=("$1")
+    else
+        echo "✓ Found: $1"
+    fi
+}
+
+check_file "models/unet/Wan2.1-VACE-14B-Q8_0.gguf"
+check_file "models/vae/wan_2.1_vae.safetensors"
+check_file "models/clip/umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+check_file "models/loras/Wan21_CausVid_14B_T2V_lora_rank32.safetensors"
+
+if [ ${#missing_files[@]} -ne 0 ]; then
+    echo ""
+    echo "🚨 ERROR: One or more required files are missing!"
+    echo "The following files were not downloaded correctly:"
+    for file in "${missing_files[@]}"; do
+        echo "  - $file"
+    done
+    echo ""
+    echo "Please check your internet connection or try running the script again."
+    exit 1
+fi
+
+echo ""
+echo "✅ All required models downloaded successfully."
+
+# Create instructions file
 cat > "input/README.txt" << 'EOF'
 UPLOAD THESE FILES TO THIS DIRECTORY:
 =====================================
