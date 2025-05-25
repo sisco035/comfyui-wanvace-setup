@@ -146,119 +146,200 @@ cat > "workflows/WanVace_Q8_Workflow.json" << 'EOF'
   "3": {
     "inputs": {
       "seed": 859911411659251,
-      "steps": 20,
-      "cfg": 4,
+      "steps": 12,
+      "cfg": 1,
       "sampler_name": "uni_pc",
       "scheduler": "normal",
       "denoise": 1,
-      "model": ["48", 0],
-      "positive": ["49", 0],
-      "negative": ["49", 1],
-      "latent_image": ["49", 2]
+      "model": [
+        "48",
+        0
+      ],
+      "positive": [
+        "49",
+        0
+      ],
+      "negative": [
+        "49",
+        1
+      ],
+      "latent_image": [
+        "49",
+        2
+      ]
     },
     "class_type": "KSampler",
-    "_meta": {"title": "KSampler"}
+    "_meta": {
+      "title": "KSampler"
+    }
   },
   "6": {
     "inputs": {
-      "text": "The girl is dancing in a sea of flowers, slowly moving her hands. There is a close - up shot of her upper body. The character is surrounded by other transparent glass flowers in the style of Nicoletta Ceccoli, creating a beautiful, surreal, and emotionally expressive movie scene with a white, transparent feel and a dreamy atmosphere.",
-      "clip": ["109", 1]
+      "text": "The girl is dancing in a sea of flowers, slowly moving her hands. There is a close - up shot of her upper body. The character is surrounded by other transparent glass flowers in the style of Nicoletta Ceccoli, creating a beautiful, surreal, and emotionally expressive movie scene with a white, transparent feel and a dreamy atmosphere. ",
+      "clip": [
+        "109",
+        1
+      ]
     },
     "class_type": "CLIPTextEncode",
-    "_meta": {"title": "CLIP Text Encode (Positive Prompt)"}
+    "_meta": {
+      "title": "CLIP Text Encode (Positive Prompt)"
+    }
   },
   "7": {
     "inputs": {
       "text": "Overexposure, blurred, subtitles, paintings, poorly drawn hands/faces, deformed limbs, cluttered background ",
-      "clip": ["109", 1]
+      "clip": [
+        "109",
+        1
+      ]
     },
     "class_type": "CLIPTextEncode",
-    "_meta": {"title": "CLIP Text Encode (Negative Prompt)"}
+    "_meta": {
+      "title": "CLIP Text Encode (Negative Prompt)"
+    }
   },
   "8": {
     "inputs": {
-      "samples": ["58", 0],
-      "vae": ["39", 0]
+      "samples": [
+        "58",
+        0
+      ],
+      "vae": [
+        "39",
+        0
+      ]
     },
     "class_type": "VAEDecode",
-    "_meta": {"title": "VAE Decode"}
+    "_meta": {
+      "title": "VAE Decode"
+    }
   },
   "39": {
     "inputs": {
       "vae_name": "wan_2.1_vae.safetensors"
     },
     "class_type": "VAELoader",
-    "_meta": {"title": "Load VAE"}
+    "_meta": {
+      "title": "Load VAE"
+    }
   },
   "48": {
     "inputs": {
       "shift": 8.000000000000002,
-      "model": ["109", 0]
+      "model": [
+        "109",
+        0
+      ]
     },
     "class_type": "ModelSamplingSD3",
-    "_meta": {"title": "ModelSamplingSD3"}
+    "_meta": {
+      "title": "ModelSamplingSD3"
+    }
   },
   "49": {
     "inputs": {
-      "width": ["115", 1],
-      "height": ["115", 2],
-      "length": 81,
+      "width": [
+        "136",
+        0
+      ],
+      "height": [
+        "137",
+        0
+      ],
+      "length": [
+        "138",
+        0
+      ],
       "batch_size": 1,
       "strength": 1,
-      "positive": ["6", 0],
-      "negative": ["7", 0],
-      "vae": ["39", 0],
-      "control_video": ["78", 0],
-      "reference_image": ["73", 0]
+      "positive": [
+        "6",
+        0
+      ],
+      "negative": [
+        "7",
+        0
+      ],
+      "vae": [
+        "39",
+        0
+      ],
+      "control_video": [
+        "129",
+        0
+      ],
+      "reference_image": [
+        "73",
+        0
+      ]
     },
     "class_type": "WanVaceToVideo",
-    "_meta": {"title": "WanVaceToVideo"}
+    "_meta": {
+      "title": "WanVaceToVideo"
+    }
   },
   "58": {
     "inputs": {
-      "trim_amount": ["49", 3],
-      "samples": ["3", 0]
+      "trim_amount": [
+        "49",
+        3
+      ],
+      "samples": [
+        "3",
+        0
+      ]
     },
     "class_type": "TrimVideoLatent",
-    "_meta": {"title": "TrimVideoLatent"}
+    "_meta": {
+      "title": "TrimVideoLatent"
+    }
   },
   "73": {
     "inputs": {
-      "image": "example.png"
+      "image": "Vote For Pedro.png"
     },
     "class_type": "LoadImage",
-    "_meta": {"title": "Load Image"}
+    "_meta": {
+      "title": "Load Image"
+    }
   },
   "75": {
     "inputs": {
-      "images": ["78", 0]
+      "images": [
+        "129",
+        0
+      ]
     },
     "class_type": "PreviewImage",
-    "_meta": {"title": "Preview Image"}
-  },
-  "78": {
-    "inputs": {
-      "low_threshold": 0.4,
-      "high_threshold": 0.8,
-      "image": ["115", 0]
-    },
-    "class_type": "Canny",
-    "_meta": {"title": "Canny"}
+    "_meta": {
+      "title": "Preview Image"
+    }
   },
   "109": {
     "inputs": {
-      "PowerLoraLoaderHeaderWidget": {"type": "PowerLoraLoaderHeaderWidget"},
+      "PowerLoraLoaderHeaderWidget": {
+        "type": "PowerLoraLoaderHeaderWidget"
+      },
       "lora_1": {
-        "on": false,
+        "on": true,
         "lora": "Wan21_CausVid_14B_T2V_lora_rank32.safetensors",
-        "strength": 0.25
+        "strength": 0.7
       },
       "➕ Add Lora": "",
-      "model": ["124", 0],
-      "clip": ["117", 0]
+      "model": [
+        "124",
+        0
+      ],
+      "clip": [
+        "117",
+        0
+      ]
     },
     "class_type": "Power Lora Loader (rgthree)",
-    "_meta": {"title": "Power Lora Loader (rgthree)"}
+    "_meta": {
+      "title": "Power Lora Loader (rgthree)"
+    }
   },
   "112": {
     "inputs": {
@@ -272,15 +353,20 @@ cat > "workflows/WanVace_Q8_Workflow.json" << 'EOF'
       "save_metadata": true,
       "pingpong": false,
       "save_output": true,
-      "images": ["8", 0]
+      "images": [
+        "8",
+        0
+      ]
     },
     "class_type": "VHS_VideoCombine",
-    "_meta": {"title": "Video Combine 🎥🅥🅗🅢"}
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
   },
   "114": {
     "inputs": {
-      "video": "original.mp4",
-      "force_rate": 0,
+      "video": "Napolean Dynamite Dance - 16 by 9.mp4",
+      "force_rate": 16,
       "custom_width": 0,
       "custom_height": 0,
       "frame_load_cap": 0,
@@ -289,20 +375,9 @@ cat > "workflows/WanVace_Q8_Workflow.json" << 'EOF'
       "format": "Wan"
     },
     "class_type": "VHS_LoadVideo",
-    "_meta": {"title": "Load Video (Upload) 🎥🅥🅗🅢"}
-  },
-  "115": {
-    "inputs": {
-      "width": 720,
-      "height": 720,
-      "interpolation": "nearest-exact",
-      "method": "fill / crop",
-      "condition": "always",
-      "multiple_of": 0,
-      "image": ["114", 0]
-    },
-    "class_type": "ImageResize+",
-    "_meta": {"title": "🔧 Image Resize"}
+    "_meta": {
+      "title": "Load Video (Upload) 🎥🅥🅗🅢"
+    }
   },
   "117": {
     "inputs": {
@@ -311,21 +386,151 @@ cat > "workflows/WanVace_Q8_Workflow.json" << 'EOF'
       "device": "default"
     },
     "class_type": "ClipLoaderGGUF",
-    "_meta": {"title": "GGUF CLIP Loader"}
+    "_meta": {
+      "title": "GGUF CLIP Loader"
+    }
   },
   "124": {
     "inputs": {
-      "any_01": ["125", 0]
+      "any_01": [
+        "125",
+        0
+      ]
     },
     "class_type": "Any Switch (rgthree)",
-    "_meta": {"title": "Model switch"}
+    "_meta": {
+      "title": "Model switch"
+    }
   },
   "125": {
     "inputs": {
       "unet_name": "Wan2.1-VACE-14B-Q8_0.gguf"
     },
     "class_type": "UnetLoaderGGUF",
-    "_meta": {"title": "Unet Loader (GGUF)"}
+    "_meta": {
+      "title": "Unet Loader (GGUF)"
+    }
+  },
+  "129": {
+    "inputs": {
+      "detect_hand": "enable",
+      "detect_body": "enable",
+      "detect_face": "enable",
+      "resolution": 512,
+      "scale_stick_for_xinsr_cn": "disable",
+      "image": [
+        "114",
+        0
+      ]
+    },
+    "class_type": "OpenposePreprocessor",
+    "_meta": {
+      "title": "OpenPose Pose"
+    }
+  },
+  "130": {
+    "inputs": {
+      "video_info": [
+        "114",
+        3
+      ]
+    },
+    "class_type": "VHS_VideoInfo",
+    "_meta": {
+      "title": "Video Info 🎥🅥🅗🅢"
+    }
+  },
+  "131": {
+    "inputs": {
+      "output": "",
+      "source": [
+        "130",
+        0
+      ]
+    },
+    "class_type": "Display Any (rgthree)",
+    "_meta": {
+      "title": "FPS"
+    }
+  },
+  "133": {
+    "inputs": {
+      "output": "",
+      "source": [
+        "130",
+        2
+      ]
+    },
+    "class_type": "Display Any (rgthree)",
+    "_meta": {
+      "title": "Duration"
+    }
+  },
+  "134": {
+    "inputs": {
+      "output": "",
+      "source": [
+        "130",
+        3
+      ]
+    },
+    "class_type": "Display Any (rgthree)",
+    "_meta": {
+      "title": "Width"
+    }
+  },
+  "135": {
+    "inputs": {
+      "output": "",
+      "source": [
+        "130",
+        4
+      ]
+    },
+    "class_type": "Display Any (rgthree)",
+    "_meta": {
+      "title": "Height"
+    }
+  },
+  "136": {
+    "inputs": {
+      "value": 540
+    },
+    "class_type": "INTConstant",
+    "_meta": {
+      "title": "Width"
+    }
+  },
+  "137": {
+    "inputs": {
+      "value": 960
+    },
+    "class_type": "INTConstant",
+    "_meta": {
+      "title": "Height"
+    }
+  },
+  "138": {
+    "inputs": {
+      "value": 81
+    },
+    "class_type": "INTConstant",
+    "_meta": {
+      "title": "Length"
+    }
+  },
+  "139": {
+    "inputs": {
+      "output": "",
+      "source": [
+        "130",
+        1
+      ]
+    },
+    "class_type": "Display Any (rgthree)",
+    "_meta": {
+      "title": "Frame Count"
+    }
   }
 }
 EOF
