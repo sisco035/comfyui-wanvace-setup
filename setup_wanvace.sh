@@ -108,7 +108,7 @@ check_file() {
         echo "✓ Found: $1"
     fi
 }
-check_file "models/unet/Wan2.1-VACE-14B-Q8_0.gguf"
+check_file "models/diffusion_models/Wan2.1-VACE-14B-Q8_0.gguf"
 check_file "models/vae/wan_2.1_vae.safetensors"
 check_file "models/clip/umt5_xxl_fp8_e4m3fn_scaled.safetensors"
 check_file "models/loras/Wan21_CausVid_14B_T2V_lora_rank32.safetensors"
