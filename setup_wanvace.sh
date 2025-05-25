@@ -64,7 +64,7 @@ echo ""
 if [ ! -f "models/unet/Wan2.1-VACE-14B-Q8_0.gguf" ]; then
     echo "Downloading UNET model (~15GB)..."
     wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/unet/Wan2.1-VACE-14B-Q8_0.gguf" \
-        "https://huggingface.co/JettHu/Wan2.1-VACE-14B-GGUF/resolve/main/Wan2.1-VACE-14B-Q8_0.gguf"
+        "https://huggingface.co/QuantStack/Wan2.1-VACE-14B-GGUF/resolve/main/Wan2.1-VACE-14B-Q8_0.gguf"
 else
     echo "✓ UNET model already exists"
 fi
@@ -73,7 +73,7 @@ fi
 if [ ! -f "models/vae/wan_2.1_vae.safetensors" ]; then
     echo "Downloading VAE model..."
     wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/vae/wan_2.1_vae.safetensors" \
-        "https://huggingface.co/JettHu/Wan2.1-VACE-14B/resolve/main/vae/wan_2.1_vae.safetensors"
+        "https://huggingface.co/calcuis/wan-gguf/resolve/2f41e77bfc957eab2020821463d0cd7b15804bb9/wan_2.1_vae.safetensors"
 else
     echo "✓ VAE model already exists"
 fi
@@ -82,7 +82,7 @@ fi
 if [ ! -f "models/clip/umt5_xxl_fp8_e4m3fn_scaled.safetensors" ]; then
     echo "Downloading CLIP model..."
     wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/clip/umt5_xxl_fp8_e4m3fn_scaled.safetensors" \
-        "https://huggingface.co/city96/t5-v1_1-xxl-encoder-gguf/resolve/main/t5-v1_1-xxl-encoder-Q8_0.gguf"
+        "https://huggingface.co/ratoenien/umt5_xxl_fp8_e4m3fn_scaled/resolve/main/umt5_xxl_fp8_e4m3fn_scaled.safetensors"
 else
     echo "✓ CLIP model already exists"
 fi
@@ -91,7 +91,7 @@ fi
 if [ ! -f "models/loras/Wan21_CausVid_14B_T2V_lora_rank32.safetensors" ]; then
     echo "Downloading LoRA model..."
     wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/loras/Wan21_CausVid_14B_T2V_lora_rank32.safetensors" \
-        "https://huggingface.co/JettHu/Wan21_CausVid_14B_T2V_LoRA/resolve/main/Wan21_CausVid_14B_T2V_lora_rank32.safetensors"
+        "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Wan21_CausVid_14B_T2V_lora_rank32.safetensors?download=true"
 else
     echo "✓ LoRA model already exists"
 fi
