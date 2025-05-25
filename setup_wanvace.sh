@@ -7,21 +7,28 @@ echo ""
 
 export GIT_TERMINAL_PROMPT=0
 
+# Check for Hugging Face token
+if [ -z "$HF_TOKEN" ]; then
+    echo "❌ ERROR: Hugging Face token (HF_TOKEN) is not set."
+    echo "Please set it in your RunPod environment variables."
+    exit 1
+fi
+
 # Find ComfyUI directory
 if [ -d "/workspace/ComfyUI" ]; then
     COMFYUI_DIR="/workspace/ComfyUI"
 elif [ -d "/workspace/comfyui" ]; then
     COMFYUI_DIR="/workspace/comfyui"
 else
-    echo "Error: ComfyUI not found!"
+    echo "❌ Error: ComfyUI not found!"
     exit 1
 fi
 
-echo "Found ComfyUI at: $COMFYUI_DIR"
+echo "✅ Found ComfyUI at: $COMFYUI_DIR"
 cd "$COMFYUI_DIR"
 
 echo ""
-echo "Installing custom nodes..."
+echo "🔧 Installing custom nodes..."
 cd custom_nodes
 
 install_node() {
@@ -29,7 +36,7 @@ install_node() {
     local repo="$2"
 
     if [ ! -d "$folder" ]; then
-        echo "  Installing $folder..."
+        echo "  ➕ Installing $folder..."
         GIT_TERMINAL_PROMPT=0 git clone --depth 1 --single-branch "$repo" "$folder"
         if [ -f "$folder/requirements.txt" ]; then
             pip install -q -r "$folder/requirements.txt" 2>/dev/null
@@ -50,13 +57,13 @@ cd "$COMFYUI_DIR"
 mkdir -p models/unet models/vae models/clip models/loras input workflows
 
 echo ""
-echo "Downloading models (this may take 10-20 minutes)..."
+echo "⏬ Downloading models (this may take 10-20 minutes)..."
 echo ""
 
 # UNET
 if [ ! -f "models/unet/Wan2.1-VACE-14B-Q8_0.gguf" ]; then
-    echo "Downloading UNET model (Q8_0 - ~15GB)..."
-    wget --progress=bar:force -O "models/unet/Wan2.1-VACE-14B-Q8_0.gguf" \
+    echo "Downloading UNET model (~15GB)..."
+    wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/unet/Wan2.1-VACE-14B-Q8_0.gguf" \
         "https://huggingface.co/JettHu/Wan2.1-VACE-14B-GGUF/resolve/main/Wan2.1-VACE-14B-Q8_0.gguf"
 else
     echo "✓ UNET model already exists"
@@ -65,7 +72,7 @@ fi
 # VAE
 if [ ! -f "models/vae/wan_2.1_vae.safetensors" ]; then
     echo "Downloading VAE model..."
-    wget --progress=bar:force -O "models/vae/wan_2.1_vae.safetensors" \
+    wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/vae/wan_2.1_vae.safetensors" \
         "https://huggingface.co/JettHu/Wan2.1-VACE-14B/resolve/main/vae/wan_2.1_vae.safetensors"
 else
     echo "✓ VAE model already exists"
@@ -74,7 +81,7 @@ fi
 # CLIP
 if [ ! -f "models/clip/umt5_xxl_fp8_e4m3fn_scaled.safetensors" ]; then
     echo "Downloading CLIP model..."
-    wget --progress=bar:force -O "models/clip/umt5_xxl_fp8_e4m3fn_scaled.safetensors" \
+    wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/clip/umt5_xxl_fp8_e4m3fn_scaled.safetensors" \
         "https://huggingface.co/city96/t5-v1_1-xxl-encoder-gguf/resolve/main/t5-v1_1-xxl-encoder-Q8_0.gguf"
 else
     echo "✓ CLIP model already exists"
@@ -83,15 +90,15 @@ fi
 # LoRA
 if [ ! -f "models/loras/Wan21_CausVid_14B_T2V_lora_rank32.safetensors" ]; then
     echo "Downloading LoRA model..."
-    wget --progress=bar:force -O "models/loras/Wan21_CausVid_14B_T2V_lora_rank32.safetensors" \
+    wget --header="Authorization: Bearer $HF_TOKEN" --progress=bar:force -O "models/loras/Wan21_CausVid_14B_T2V_lora_rank32.safetensors" \
         "https://huggingface.co/JettHu/Wan21_CausVid_14B_T2V_LoRA/resolve/main/Wan21_CausVid_14B_T2V_lora_rank32.safetensors"
 else
     echo "✓ LoRA model already exists"
 fi
 
-# Verify downloads
+# ✅ Verify all models downloaded
 echo ""
-echo "Verifying downloaded models..."
+echo "🔍 Verifying all model files..."
 
 missing_files=()
 
@@ -112,19 +119,18 @@ check_file "models/loras/Wan21_CausVid_14B_T2V_lora_rank32.safetensors"
 if [ ${#missing_files[@]} -ne 0 ]; then
     echo ""
     echo "🚨 ERROR: One or more required files are missing!"
-    echo "The following files were not downloaded correctly:"
     for file in "${missing_files[@]}"; do
         echo "  - $file"
     done
     echo ""
-    echo "Please check your internet connection or try running the script again."
+    echo "Please check your Hugging Face token or re-run the script."
     exit 1
 fi
 
 echo ""
 echo "✅ All required models downloaded successfully."
 
-# Create instructions file
+# 📄 Create instructions file
 cat > "input/README.txt" << 'EOF'
 UPLOAD THESE FILES TO THIS DIRECTORY:
 =====================================
